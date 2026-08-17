@@ -1,0 +1,106 @@
+
+def get_valid_number(prompt, min_val, max_val):
+    while True:
+        try:
+            value = int(input(prompt))
+            if min_val <= value <= max_val:
+                return value
+            else:
+                print(f"Please enter number between {min_val} and {max_val}")
+        except:
+            print("Invalid input! Only number allowed.")
+
+
+def grade(mcq, cq, practical, subject, full_mcq, full_cq, full_practical):
+    total = mcq + cq + practical
+    full_total = full_mcq + full_cq + full_practical
+
+    if mcq < (full_mcq * 0.33) or cq < (full_cq * 0.33):
+        result = "Fail"
+    elif total >= full_total * 0.90:
+        result = "Golden A+"
+    elif total >= full_total * 0.80:
+        result = "A+"
+    elif total >= full_total * 0.70:
+        result = "A"
+    elif total >= full_total * 0.60:
+        result = "A-"
+    elif total >= full_total * 0.50:
+        result = "B"
+    elif total >= full_total * 0.40:
+        result = "C"
+    elif total >= full_total * 0.33:
+        result = "D"
+    else:
+        result = "Fail"
+
+    print(f"\n{subject}")
+    print(f"MCQ: {mcq}/{full_mcq} | CQ: {cq}/{full_cq} | Practical: {practical}/{full_practical}")
+    print(f"Total: {total}/{full_total} → Grade: {result}")
+    print("-" * 40)
+
+
+print("===== Student Result System =====")
+
+reg = get_valid_number("Registration Number (max 10 digits): ", 0, 9999999999)
+roll = get_valid_number("Roll Number (max 6 digits): ", 0, 999999)
+
+group = input("Enter Group (Science / Commerce / Arts): ").strip().upper()
+
+common_subjects = [
+    ("Bangla 1st", 30, 70, 0),
+    ("Bangla 2nd", 0, 100, 0),
+    ("English 1st", 0, 100, 0),
+    ("English 2nd", 0, 100, 0),
+    ("ICT", 25, 50, 25),
+]
+
+science_subjects = [
+    ("Physics 1st", 25, 50, 25),
+    ("Physics 2nd", 25, 50, 25),
+    ("Chemistry 1st", 25, 50, 25),
+    ("Chemistry 2nd", 25, 50, 25),
+    ("Biology 1st", 25, 50, 25),
+    ("Biology 2nd", 25, 50, 25),
+    ("Higher Math 1st", 25, 50, 25),
+    ("Higher Math 2nd", 25, 50, 25),
+]
+
+commerce_subjects = [
+    ("Accounting 1st", 25, 50, 25),
+    ("Accounting 2nd", 25, 50, 25),
+    ("Business 1st", 25, 50, 25),
+    ("Business 2nd", 25, 50, 25),
+    ("Finance 1st", 25, 50, 25),
+    ("Finance 2nd", 25, 50, 25),
+]
+
+arts_subjects = [
+    ("Civics 1st", 25, 50, 25),
+    ("Civics 2nd", 25, 50, 25),
+    ("Logic 1st", 25, 50, 25),
+    ("Logic 2nd", 25, 50, 25),
+]
+
+if group == "SCIENCE":
+    subjects = common_subjects + science_subjects
+elif group == "COMMERCE":
+    subjects = common_subjects + commerce_subjects
+elif group == "ARTS":
+    subjects = common_subjects + arts_subjects
+else:
+    print("Invalid Group!")
+    subjects = common_subjects
+
+print(f"\nGroup: {group}")
+print(f"Roll: {roll} | Registration: {reg}")
+print("=" * 40)
+
+for subject, full_mcq, full_cq, full_practical in subjects:
+    print(f"\n{subject}:")
+    
+    mcq = get_valid_number(f"MCQ (0-{full_mcq}): ", 0, full_mcq) if full_mcq > 0 else 0
+    cq = get_valid_number(f"CQ (0-{full_cq}): ", 0, full_cq) if full_cq > 0 else 0
+    practical = get_valid_number(f"Practical (0-{full_practical}): ", 0, full_practical) if full_practical > 0 else 0
+    
+    grade(mcq, cq, practical, subject, full_mcq, full_cq, full_practical)
